@@ -41,7 +41,7 @@
     });
   }
 
-  /** Set up EN/中文 language toggle as a page-level control */
+  /** Set up language toggle as a page-level control */
   function setupLanguageToggle() {
     // Create toggle buttons
     var toggle = document.createElement('div');
@@ -51,42 +51,42 @@
     btnEn.textContent = 'EN';
     btnEn.type = 'button';
 
-    var btnZh = document.createElement('button');
-    btnZh.textContent = '中文';
-    btnZh.type = 'button';
+    var btnDk = document.createElement('button');
+    btnDk.textContent = 'DK';
+    btnDk.type = 'button';
 
     toggle.appendChild(btnEn);
-    toggle.appendChild(btnZh);
+    toggle.appendChild(btnDk);
 
     // Insert at top of body
     document.body.insertBefore(toggle, document.body.firstChild);
 
-    // Read saved preference, default to zh
+    // Read saved preference, default to dk
     var saved = null;
     try { saved = localStorage.getItem('airwave-lang'); } catch (e) { /* noop */ }
-    var currentLang = saved === 'en' ? 'en' : 'zh';
+    var currentLang = saved === 'en' ? 'en' : 'dk';
 
     function updateButtons(lang) {
       if (lang === 'en') {
         btnEn.classList.add('active');
-        btnZh.classList.remove('active');
+        btnDh.classList.remove('active');
       } else {
-        btnZh.classList.add('active');
+        btnDh.classList.add('active');
         btnEn.classList.remove('active');
       }
     }
 
     // Index page: toggle lang-section visibility
-    var zhSection = document.getElementById('lang-zh');
+    var dkSection = document.getElementById('lang-dk');
     var enSection = document.getElementById('lang-en');
 
     function showSection(lang) {
-      if (!zhSection || !enSection) return;
+      if (!dkSection || !enSection) return;
       if (lang === 'en') {
         enSection.classList.remove('hidden');
-        zhSection.classList.add('hidden');
+        dkSection.classList.add('hidden');
       } else {
-        zhSection.classList.remove('hidden');
+        dkSection.classList.remove('hidden');
         enSection.classList.add('hidden');
       }
     }
@@ -95,10 +95,10 @@
     function switchArticleLang(lang) {
       var path = window.location.pathname;
       var target = null;
-      if (lang === 'en' && /-zh(?:\.html)?$/.test(path.replace(/\/$/, ''))) {
-        target = path.replace(/-zh(\.html)?$/, '-en$1').replace(/-zh\/$/, '-en/');
-      } else if (lang === 'zh' && /-en(?:\.html)?$/.test(path.replace(/\/$/, ''))) {
-        target = path.replace(/-en(\.html)?$/, '-zh$1').replace(/-en\/$/, '-zh/');
+      if (lang === 'en' && /-dk(?:\.html)?$/.test(path.replace(/\/$/, ''))) {
+        target = path.replace(/-dk(\.html)?$/, '-en$1').replace(/-dk\/$/, '-en/');
+      } else if (lang === 'dk' && /-en(?:\.html)?$/.test(path.replace(/\/$/, ''))) {
+        target = path.replace(/-en(\.html)?$/, '-dk$1').replace(/-en\/$/, '-dk/');
       }
       if (target) window.location.href = target;
     }
@@ -107,7 +107,7 @@
       currentLang = lang;
       updateButtons(lang);
       try { localStorage.setItem('airwave-lang', lang); } catch (e) { /* noop */ }
-      if (zhSection && enSection) {
+      if (dkSection && enSection) {
         showSection(lang);
       } else {
         switchArticleLang(lang);
@@ -115,11 +115,11 @@
     }
 
     btnEn.addEventListener('click', function () { setLang('en'); });
-    btnZh.addEventListener('click', function () { setLang('zh'); });
+    btnDk.addEventListener('click', function () { setLang('dk'); });
 
     // Initialize
     updateButtons(currentLang);
-    if (zhSection && enSection) {
+    if (dkSection && enSection) {
       showSection(currentLang);
     }
   }
