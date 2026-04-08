@@ -2,7 +2,7 @@
 
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional
 import httpx
 
@@ -365,7 +365,7 @@ class GitHubScraper(BaseScraper):
             list_id=list_id,
             username=username,
             repositories=all_repos,
-            last_updated=datetime.utcnow(),
+            last_updated=datetime.now(timezone.utc),
             repo_count=len(all_repos),
         )
         self.storage.save_star_list_state(list_id, current_state)
@@ -430,7 +430,7 @@ class GitHubScraper(BaseScraper):
                     url=repo.url,
                     content=f"Repository {repo.name_with_owner} was removed from starred list",
                     author=current_state.username,
-                    published_at=datetime.utcnow(),
+                    published_at=datetime.now(timezone.utc),
                     metadata={
                         "event_type": "star_removed",
                         "repo": repo.name_with_owner,
