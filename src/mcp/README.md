@@ -1,14 +1,14 @@
-# Horizon MCP
+# AIRWave MCP
 
-Horizon includes a built-in MCP server that exposes the native Horizon pipeline as staged tools and read-only resources.
+AIRWave includes a built-in MCP server that exposes the native AIRWave pipeline as staged tools and read-only resources.
 
-The MCP layer does not reimplement Horizon business logic. It reuses the existing fetch, score, filter, enrich, and summarize modules from the main codebase.
+The MCP layer does not reimplement AIRWave business logic. It reuses the existing fetch, score, filter, enrich, and summarize modules from the main codebase.
 
 ## Tools
 
 | Tool | Description |
 | --- | --- |
-| `hz_validate_config` | Validate Horizon config and required environment variables |
+| `hz_validate_config` | Validate AIRWave config and required environment variables |
 | `hz_fetch_items` | Fetch and deduplicate content into the `raw` stage |
 | `hz_score_items` | Score items from a stage into `scored` |
 | `hz_filter_items` | Filter scored items into `filtered` |
@@ -23,19 +23,19 @@ The MCP layer does not reimplement Horizon business logic. It reuses the existin
 
 ## Resources
 
-- `horizon://server/info`
-- `horizon://metrics`
-- `horizon://runs`
-- `horizon://runs/{run_id}/meta`
-- `horizon://runs/{run_id}/items/{stage}`
-- `horizon://runs/{run_id}/summary/{language}`
-- `horizon://config/effective`
+- `airwave://server/info`
+- `airwave://metrics`
+- `airwave://runs`
+- `airwave://runs/{run_id}/meta`
+- `airwave://runs/{run_id}/items/{stage}`
+- `airwave://runs/{run_id}/summary/{language}`
+- `airwave://config/effective`
 
 ## Install and Start
 
 ```bash
 uv sync
-uv run horizon-mcp
+uv run airwave-mcp
 ```
 
 The server runs over stdio and is intended to be launched by an MCP client.
@@ -53,7 +53,7 @@ Each run writes artifacts under `data/mcp-runs/<run_id>/`:
 
 ## Design Principles
 
-1. Keep Horizon as the single source of business logic.
+1. Keep AIRWave as the single source of business logic.
 2. Preserve staged re-entry so a run can continue from intermediate artifacts.
 3. Default to no extra side effects unless explicitly requested.
 

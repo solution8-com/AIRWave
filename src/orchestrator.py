@@ -23,7 +23,7 @@ from .ai.enricher import ContentEnricher
 from .ai.tokens import get_usage_snapshot
 
 
-class HorizonOrchestrator:
+class AIRWaveOrchestrator:
     """Orchestrates the complete workflow for content aggregation and analysis."""
 
     def __init__(self, config: Config, storage: StorageManager):
@@ -44,7 +44,7 @@ class HorizonOrchestrator:
         Args:
             force_hours: Optional override for time window in hours
         """
-        self.console.print("[bold cyan]🌅 Horizon - Starting aggregation...[/bold cyan]\n")
+        self.console.print("[bold cyan]🌅 AIRWave - Starting aggregation...[/bold cyan]\n")
 
         # Check email subscriptions if configured
         if self.email_manager and self.config.email and self.config.email.enabled:
@@ -132,7 +132,7 @@ class HorizonOrchestrator:
                     front_matter = (
                         "---\n"
                         "layout: default\n"
-                        f"title: \"Horizon Summary: {today} ({lang.upper()})\"\n"
+                        f"title: \"AIRWave Summary: {today} ({lang.upper()})\"\n"
                         f"date: {today}\n"
                         f"lang: {lang}\n"
                         "---\n\n"
@@ -157,10 +157,10 @@ class HorizonOrchestrator:
                 if self.email_manager and self.config.email and self.config.email.enabled:
                     self.console.print(f"📧 Sending {lang.upper()} email summary...")
                     subscribers = self.storage.load_subscribers()
-                    subject = f"Horizon Summary ({lang.upper()}) - {today}"
+                    subject = f"AIRWave Summary ({lang.upper()}) - {today}"
                     self.email_manager.send_daily_summary(summary, subject, subscribers)
 
-            self.console.print("[bold green]✅ Horizon completed successfully![/bold green]")
+            self.console.print("[bold green]✅ AIRWave completed successfully![/bold green]")
             usage = get_usage_snapshot()
             if usage.total_tokens > 0:
                 self.console.print(

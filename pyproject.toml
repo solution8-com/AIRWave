@@ -28,9 +28,9 @@ dev = [
 ]
 
 [project.scripts]
-horizon = "src.main:main"
-horizon-mcp = "src.mcp.server:main"
-horizon-wizard = "src.setup.wizard:main"
+airwave = "src.main:main"
+airwave-mcp = "src.mcp.server:main"
+airwave-wizard = "src.setup.wizard:main"
 
 [build-system]
 requires = ["hatchling"]

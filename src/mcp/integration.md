@@ -1,11 +1,11 @@
-# Horizon MCP Integration
+# AIRWave MCP Integration
 
 ## Recommended Command
 
-Start the built-in MCP server from the Horizon repository root:
+Start the built-in MCP server from the AIRWave repository root:
 
 ```bash
-uv run horizon-mcp
+uv run airwave-mcp
 ```
 
 If you need a Python module fallback:
@@ -18,17 +18,17 @@ uv run python -m src.mcp.server
 
 ### Option A: Client Config With Explicit `cwd`
 
-Some MCP clients need a fixed working directory in their config. In that case, the absolute path is only used in the client-side `cwd` field, not in Horizon's code.
+Some MCP clients need a fixed working directory in their config. In that case, the absolute path is only used in the client-side `cwd` field, not in AIRWave's code.
 
 Example:
 
 ```json
 {
   "mcpServers": {
-    "horizon": {
+    "airwave": {
       "command": "uv",
-      "args": ["run", "horizon-mcp"],
-      "cwd": "/absolute/path/to/Horizon"
+      "args": ["run", "airwave-mcp"],
+      "cwd": "/absolute/path/to/AIRWave"
     }
   }
 }
@@ -41,8 +41,8 @@ Restart the client after saving the config.
 If your workflow allows you to start the MCP server manually, no absolute path is needed at all:
 
 ```bash
-cd /absolute/path/to/Horizon
-uv run horizon-mcp
+cd /absolute/path/to/AIRWave
+uv run airwave-mcp
 ```
 
 This is the cleanest way to avoid path values in client configuration.
@@ -55,8 +55,8 @@ Instead of exporting environment variables manually, you can place a JSON file i
 - `.cursor/mcp.secrets.local.json`
 - `config/mcp.secrets.json`
 - `config/mcp.secrets.local.json`
-- `<horizon_path>/data/mcp.secrets.json`
-- `<horizon_path>/data/mcp-secrets.json`
+- `<airwave_path>/data/mcp.secrets.json`
+- `<airwave_path>/data/mcp-secrets.json`
 
 Supported formats:
 
@@ -84,7 +84,7 @@ You can also point to a custom secrets file with:
 
 ```json
 {
-  "HORIZON_MCP_SECRETS_PATH": "/absolute/path/to/mcp.secrets.json"
+  "AIRWAVE_MCP_SECRETS_PATH": "/absolute/path/to/mcp.secrets.json"
 }
 ```
 

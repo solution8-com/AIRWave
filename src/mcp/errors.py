@@ -1,4 +1,4 @@
-"""Error definitions for Horizon MCP service."""
+"""Error definitions for AIRWave MCP service."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ from typing import Any
 
 
 @dataclass
-class HorizonMcpError(Exception):
+class AIRWaveMcpError(Exception):
     """Structured exception with stable error code."""
 
     code: str

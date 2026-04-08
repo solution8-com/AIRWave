@@ -23,5 +23,5 @@ VOLUME ["/app/data"]
 ENV PYTHONUNBUFFERED=1
 
 # Run the application
-ENTRYPOINT ["uv", "run", "horizon"]
+ENTRYPOINT ["uv", "run", "airwave"]
 CMD ["--hours", "24"]

@@ -1,4 +1,4 @@
-"""CLI entry point for Horizon."""
+"""CLI entry point for AIRWave."""
 
 import argparse
 import asyncio
@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from rich.console import Console
 
 from .storage.manager import StorageManager
-from .orchestrator import HorizonOrchestrator
+from .orchestrator import AIRWaveOrchestrator
 
 
 console = Console()
@@ -35,7 +35,7 @@ def main():
     """Main CLI entry point."""
     print_banner()
 
-    parser = argparse.ArgumentParser(description="Horizon - AI-Driven Information Aggregation System")
+    parser = argparse.ArgumentParser(description="AIRWave - AI-Driven Information Aggregation System")
     parser.add_argument("--hours", type=int, help="Force fetch from last N hours")
     args = parser.parse_args()
 
@@ -55,7 +55,7 @@ def main():
         except FileNotFoundError:
             console.print("[bold red]❌ Configuration file not found![/bold red]\n")
             console.print(
-                "Run [bold cyan]uv run horizon-wizard[/bold cyan] to launch the interactive setup wizard,\n"
+                "Run [bold cyan]uv run airwave-wizard[/bold cyan] to launch the interactive setup wizard,\n"
                 "or create [cyan]data/config.json[/cyan] manually based on the template:\n"
             )
             print_config_template()
@@ -65,7 +65,7 @@ def main():
             sys.exit(1)
 
         # Create and run orchestrator
-        orchestrator = HorizonOrchestrator(config, storage)
+        orchestrator = AIRWaveOrchestrator(config, storage)
         asyncio.run(orchestrator.run(force_hours=args.hours))
 
     except KeyboardInterrupt:
