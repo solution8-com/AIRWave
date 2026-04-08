@@ -368,16 +368,25 @@ class GitHubScraper(BaseScraper):
             last_updated=datetime.now(timezone.utc),
             repo_count=len(all_repos),
         )
-        self.storage.save_star_list_state(list_id, current_state)
 
         if prev_state is None:
+            # First run: save baseline state and return nothing to prevent flood.
+            self.storage.save_star_list_state(list_id, current_state)
             logger.info(
                 "First run for %s stars – state saved, returning 0 items to prevent flood.",
                 username,
             )
             return []
 
-        return self._compare_star_lists(prev_state, current_state)
+        # Compute diff before persisting so a crash here doesn't advance the
+        # checkpoint prematurely.
+        items = self._compare_star_lists(prev_state, current_state)
+
+        # Persist the new checkpoint only after the diff has been computed
+        # successfully.
+        self.storage.save_star_list_state(list_id, current_state)
+
+        return items
 
     def _compare_star_lists(
         self,

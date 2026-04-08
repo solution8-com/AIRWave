@@ -1,11 +1,15 @@
 """Storage manager for configuration and state persistence."""
 
 import json
+import logging
+import os
 import shutil
 from pathlib import Path
 from typing import Optional
 
 from ..models import Config, StarListState
+
+logger = logging.getLogger(__name__)
 
 
 class StorageManager:
@@ -94,7 +98,10 @@ class StorageManager:
             json.dump(subscribers, f, indent=2)
 
     def save_star_list_state(self, list_id: str, state: StarListState) -> Path:
-        """Save star list state to a JSON file.
+        """Save star list state to a JSON file using an atomic write.
+
+        Writes to a temporary file first, then replaces the target atomically
+        via os.replace to avoid partial-write corruption.
 
         Args:
             list_id: Unique identifier for the star list (e.g. "stars_username")
@@ -105,20 +112,28 @@ class StorageManager:
         """
         safe_id = list_id.replace("/", "_")
         filepath = self.star_lists_dir / f"{safe_id}.json"
+        tmp_path = self.star_lists_dir / f"{safe_id}.json.tmp"
 
-        with open(filepath, "w", encoding="utf-8") as f:
+        with open(tmp_path, "w", encoding="utf-8") as f:
             json.dump(state.model_dump(), f, indent=2, default=str)
+            f.flush()
+            os.fsync(f.fileno())
 
+        os.replace(tmp_path, filepath)
         return filepath
 
     def load_star_list_state(self, list_id: str) -> Optional[StarListState]:
         """Load a previously saved star list state.
 
+        Returns None (with a warning) if the file is missing, unreadable, or
+        contains invalid JSON/data, so callers are never exposed to I/O or
+        parse errors.
+
         Args:
             list_id: Unique identifier for the star list
 
         Returns:
-            StarListState if found, else None
+            StarListState if found and valid, else None
         """
         safe_id = list_id.replace("/", "_")
         filepath = self.star_lists_dir / f"{safe_id}.json"
@@ -126,7 +141,15 @@ class StorageManager:
         if not filepath.exists():
             return None
 
-        with open(filepath, "r", encoding="utf-8") as f:
-            data = json.load(f)
-
-        return StarListState.model_validate(data)
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            return StarListState.model_validate(data)
+        except (json.JSONDecodeError, OSError, Exception) as exc:
+            logger.warning(
+                "load_star_list_state: could not load StarListState from %s – treating as no previous state (%s: %s)",
+                filepath,
+                type(exc).__name__,
+                exc,
+            )
+            return None
