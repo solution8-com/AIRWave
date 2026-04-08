@@ -66,7 +66,7 @@
           "sort": "hot",
           "time_filter": "day",
           "fetch_limit": 15,
-          "min_score": 60
+          "min_score": 20
         },
         {
           "subreddit": "LocalLLaMA",
@@ -74,7 +74,7 @@
           "sort": "hot",
           "time_filter": "day",
           "fetch_limit": 15,
-          "min_score": 60
+          "min_score": 20
         }
       ],
       "users": [],
@@ -84,7 +84,12 @@
       "enabled": true,
       "channels": [
         {
-          "channel": "zaihuapd",
+          "channel": "MLmorons",
+          "enabled": true,
+          "fetch_limit": 20
+        },
+        {
+          "channel": "machinelearningresearchnews",
           "enabled": true,
           "fetch_limit": 20
         }
