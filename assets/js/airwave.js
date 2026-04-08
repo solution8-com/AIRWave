@@ -63,7 +63,7 @@
 
     // Read saved preference, default to zh
     var saved = null;
-    try { saved = localStorage.getItem('horizon-lang'); } catch (e) { /* noop */ }
+    try { saved = localStorage.getItem('airwave-lang'); } catch (e) { /* noop */ }
     var currentLang = saved === 'en' ? 'en' : 'zh';
 
     function updateButtons(lang) {
@@ -106,7 +106,7 @@
     function setLang(lang) {
       currentLang = lang;
       updateButtons(lang);
-      try { localStorage.setItem('horizon-lang', lang); } catch (e) { /* noop */ }
+      try { localStorage.setItem('airwave-lang', lang); } catch (e) { /* noop */ }
       if (zhSection && enSection) {
         showSection(lang);
       } else {
