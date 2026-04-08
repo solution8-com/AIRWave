@@ -2,7 +2,7 @@
 
 ## Positioning
 
-**One-sentence positioning**: The information source marketplace for community—driven usage data for discovery, recommendation, and quality assessment.
+**One-sentence positioning**: The information source marketplace for the AIRWave ecosystem—driven by real community usage data for discovery, recommendation, and quality assessment.
 
 **Difference from Competitors**:
 
@@ -11,7 +11,7 @@
 | RSSHub | Turns websites without RSS into RSS (Pipe) | No quality assessment, no recommendations |
 | Feedly | RSS Reader with discovery features | No AI filtering, no personalized recommendations |
 | HN / Reddit | Community-driven content aggregation | Fixed sources, user cannot customize |
-| **AIRWaveHUb** | **Data-driven source recommendation & quality assessment** | **No content hosting, not a reader** |
+| **AIRWaveHub** | **Data-driven source recommendation & quality assessment** | **No content hosting, not a reader** |
 
 **Core Moat**: The daily operation of every AIRWave user generates quality data for information sources (AI scores, signal-to-noise ratio, output frequency). When aggregated in the Hub, this data forms a **dynamic quality profile** that no static recommendation list can provide.
 
@@ -23,7 +23,7 @@
 ┌──────────────────────────────────────────────────┐
 │                    User Local                    │
 │                                                  │
-│  AIRWave-wizard (TUI)       AIRWave CLI          │
+│  airwave-wizard (TUI)       AIRWave CLI          │
 │  ┌────────────────┐         ┌────────────────┐   │
 │  │ Browse/Search  │         │ Fetch -> AI    │   │
 │  │ Add/Remove     │──Write─▶│ Score ->       │   │
@@ -167,7 +167,7 @@ Hub server continuously tracks active user trends for each source. If usage drop
 When a user deletes or disables a source via `airwave-wizard`, a popup asks for optional feedback:
 
 ```
-You removed "Breitbart", can you tell us why? (Optional, Enter to skip)
+You removed "Qiabit", can you tell us why? (Optional, Enter to skip)
 1. Quality dropped
 2. Too much overlap with other sources
 3. Low update frequency / defunct
@@ -175,7 +175,7 @@ You removed "Breitbart", can you tell us why? (Optional, Enter to skip)
 >
 ```
 
-Reported to the Hub, integrated with decay data.
+Reported to the Hub, integrated with decay data for comprehensive judgment.
 
 ---
 
