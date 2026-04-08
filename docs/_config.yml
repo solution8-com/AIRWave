@@ -2,7 +2,7 @@ theme: jekyll-theme-cayman
 title: AIRWave Daily
 description: AI-curated daily digest of tech and research news
 baseurl: "/AIRWave" # the subpath of your site, e.g. /blog
-url: "https://thysrael.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://solution8-com.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
 markdown: kramdown
