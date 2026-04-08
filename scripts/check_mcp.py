@@ -1,28 +1,28 @@
 #!/usr/bin/env python3
-"""Local smoke check for Horizon MCP integration."""
+"""Local smoke check for AIRWave MCP integration."""
 
 from __future__ import annotations
 
 import asyncio
 import json
 
-from src.mcp.horizon_adapter import resolve_horizon_path
+from src.mcp.airwave_adapter import resolve_airwave_path
 from src.mcp.server import hz_get_metrics
-from src.mcp.service import HorizonPipelineService
+from src.mcp.service import AIRWavePipelineService
 
 
 async def _main() -> None:
-    horizon_path = resolve_horizon_path()
-    service = HorizonPipelineService()
+    airwave_path = resolve_airwave_path()
+    service = AIRWavePipelineService()
     validation = await service.validate_config(
-        horizon_path=str(horizon_path),
+        airwave_path=str(airwave_path),
         check_env=False,
     )
     metrics = hz_get_metrics()
 
     payload = {
         "ok": True,
-        "horizon_path": str(horizon_path),
+        "airwave_path": str(airwave_path),
         "config_path": validation["config_path"],
         "enabled_sources": validation["enabled_sources"],
         "languages": validation["ai"]["languages"],

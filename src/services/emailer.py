@@ -93,8 +93,8 @@ class EmailManager:
                                         subscribers = storage_manager.load_subscribers()
                                         self._send_reply(
                                             email_addr,
-                                            "Subscribed to Horizon",
-                                            "You have been successfully subscribed to Horizon daily summaries.",
+                                            "Subscribed to AIRWave",
+                                            "You have been successfully subscribed to AIRWave daily summaries.",
                                         )
                                         logger.info(f"Added subscriber: {email_addr}")
                                     else:
@@ -133,8 +133,8 @@ class EmailManager:
                                         subscribers = storage_manager.load_subscribers()
                                         self._send_reply(
                                             email_addr,
-                                            "Unsubscribed from Horizon",
-                                            "You have been successfully unsubscribed from Horizon daily summaries.",
+                                            "Unsubscribed from AIRWave",
+                                            "You have been successfully unsubscribed from AIRWave daily summaries.",
                                         )
                                         logger.info(f"Removed subscriber: {email_addr}")
                                     else:

@@ -1,4 +1,4 @@
-"""Horizon MCP package."""
+"""AIRWave MCP package."""
 
 __all__ = ["__version__"]
 

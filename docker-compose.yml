@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  horizon:
+  airwave:
     build: .
-    container_name: horizon
+    container_name: airwave
     volumes:
       - ./data:/app/data
       - ./.env:/app/.env:ro
@@ -11,5 +11,5 @@ services:
       - TZ=UTC
     restart: unless-stopped
     # Run daily at 8:00 AM UTC (adjust as needed)
-    # For one-time run, use: docker-compose run --rm horizon
+    # For one-time run, use: docker-compose run --rm airwave
     command: ["--hours", "24"]

@@ -1,4 +1,4 @@
-"""Interactive setup wizard for Horizon configuration."""
+"""Interactive setup wizard for AIRWave configuration."""
 
 import json
 import os
@@ -422,7 +422,7 @@ def main():
         f"  AI:      {ai_config.provider.value} / {ai_config.model}\n"
         f"  Sources: {_count_sources(config)} total\n"
         f"  Threshold: {config.filtering.ai_score_threshold}\n\n"
-        f"Run [bold cyan]horizon[/bold cyan] to start aggregating!",
+        f"Run [bold cyan]airwave[/bold cyan] to start aggregating!",
         title="Setup Complete",
         border_style="green",
     ))

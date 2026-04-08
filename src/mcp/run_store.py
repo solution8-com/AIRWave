@@ -1,4 +1,4 @@
-"""Run artifact persistence for Horizon MCP."""
+"""Run artifact persistence for AIRWave MCP."""
 
 from __future__ import annotations
 

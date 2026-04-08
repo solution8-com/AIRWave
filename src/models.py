@@ -1,4 +1,4 @@
-"""Core data models for Horizon."""
+"""Core data models for AIRWave."""
 
 from datetime import datetime
 from enum import Enum
@@ -141,7 +141,7 @@ class EmailConfig(BaseModel):
     smtp_port: int = 465
     email_address: str
     password_env: str = "EMAIL_PASSWORD"
-    sender_name: str = "Horizon Daily"
+    sender_name: str = "AIRWave Daily"
     subscribe_keyword: str = "SUBSCRIBE"
     unsubscribe_keyword: str = "UNSUBSCRIBE"
     enabled: bool = False
