@@ -36,6 +36,11 @@
         "owner": "triton-lang",
         "repo": "triton",
         "enabled": true
+      },
+      {
+        "type": "star_list",
+        "username": "karpathy",
+        "enabled": true
       }
     ],
     "hackernews": {

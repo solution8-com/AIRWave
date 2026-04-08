@@ -3,8 +3,9 @@
 import json
 import shutil
 from pathlib import Path
+from typing import Optional
 
-from ..models import Config
+from ..models import Config, StarListState
 
 
 class StorageManager:
@@ -14,9 +15,11 @@ class StorageManager:
         self.data_dir = Path(data_dir)
         self.config_path = self.data_dir / "config.json"
         self.summaries_dir = self.data_dir / "summaries"
+        self.star_lists_dir = self.data_dir / "star_lists"
 
         self.data_dir.mkdir(parents=True, exist_ok=True)
         self.summaries_dir.mkdir(parents=True, exist_ok=True)
+        self.star_lists_dir.mkdir(parents=True, exist_ok=True)
 
     def load_config(self) -> Config:
         if not self.config_path.exists():
@@ -89,3 +92,41 @@ class StorageManager:
         subscribers_path = self.data_dir / "subscribers.json"
         with open(subscribers_path, "w", encoding="utf-8") as f:
             json.dump(subscribers, f, indent=2)
+
+    def save_star_list_state(self, list_id: str, state: StarListState) -> Path:
+        """Save star list state to a JSON file.
+
+        Args:
+            list_id: Unique identifier for the star list (e.g. "stars_username")
+            state: Star list state to persist
+
+        Returns:
+            Path to the saved file
+        """
+        safe_id = list_id.replace("/", "_")
+        filepath = self.star_lists_dir / f"{safe_id}.json"
+
+        with open(filepath, "w", encoding="utf-8") as f:
+            json.dump(state.model_dump(), f, indent=2, default=str)
+
+        return filepath
+
+    def load_star_list_state(self, list_id: str) -> Optional[StarListState]:
+        """Load a previously saved star list state.
+
+        Args:
+            list_id: Unique identifier for the star list
+
+        Returns:
+            StarListState if found, else None
+        """
+        safe_id = list_id.replace("/", "_")
+        filepath = self.star_lists_dir / f"{safe_id}.json"
+
+        if not filepath.exists():
+            return None
+
+        with open(filepath, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        return StarListState.model_validate(data)

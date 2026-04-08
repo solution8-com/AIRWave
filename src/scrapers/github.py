@@ -7,24 +7,72 @@ from typing import List, Optional
 import httpx
 
 from .base import BaseScraper
-from ..models import ContentItem, SourceType, GitHubSourceConfig
+from ..models import ContentItem, SourceType, GitHubSourceConfig, StarredRepo, StarListState
+from ..storage.manager import StorageManager
 
 logger = logging.getLogger(__name__)
+
+
+class GitHubGraphQLClient:
+    """Minimal GraphQL client for the GitHub API."""
+
+    def __init__(self, token: str, http_client: httpx.AsyncClient):
+        """Initialize the GraphQL client.
+
+        Args:
+            token: GitHub personal access token
+            http_client: Shared async HTTP client to reuse
+        """
+        self.token = token
+        self.http_client = http_client
+        self.base_url = "https://api.github.com/graphql"
+
+    async def query(self, query: str, variables: dict = None) -> dict:
+        """Execute a GraphQL query.
+
+        Args:
+            query: GraphQL query string
+            variables: Optional variables dict
+
+        Returns:
+            Parsed JSON response dict
+        """
+        headers = {
+            "Authorization": f"bearer {self.token}",
+            "Accept": "application/vnd.github.v3+json",
+        }
+        response = await self.http_client.post(
+            self.base_url,
+            json={"query": query, "variables": variables or {}},
+            headers=headers,
+        )
+        response.raise_for_status()
+        return response.json()
 
 
 class GitHubScraper(BaseScraper):
     """Scraper for GitHub events and releases."""
 
-    def __init__(self, sources: List[GitHubSourceConfig], http_client: httpx.AsyncClient):
+    def __init__(
+        self,
+        sources: List[GitHubSourceConfig],
+        http_client: httpx.AsyncClient,
+        storage: Optional[StorageManager] = None,
+    ):
         """Initialize GitHub scraper.
 
         Args:
             sources: List of GitHub source configurations
             http_client: Shared async HTTP client
+            storage: Optional storage manager (required for star_list sources)
         """
         super().__init__({"sources": sources}, http_client)
         self.token = os.getenv("GITHUB_TOKEN")
         self.base_url = "https://api.github.com"
+        self.storage = storage
+        self.graphql_client = (
+            GitHubGraphQLClient(self.token, http_client) if self.token else None
+        )
 
     def _get_headers(self) -> dict:
         """Get request headers with optional authentication.
@@ -64,6 +112,9 @@ class GitHubScraper(BaseScraper):
                     source.owner, source.repo, since
                 )
                 items.extend(release_items)
+            elif source.type == "star_list" and source.username:
+                star_items = await self._fetch_star_list(source.username)
+                items.extend(star_items)
 
         return items
 
@@ -218,5 +269,173 @@ class GitHubScraper(BaseScraper):
 
         except httpx.HTTPError as e:
             logger.warning("Error fetching releases for %s/%s: %s", owner, repo, e)
+
+        return items
+
+    async def _fetch_star_list(self, username: str) -> List[ContentItem]:
+        """Fetch updates to a user's global starred repositories via GraphQL.
+
+        On the first run the current state is saved and an empty list is
+        returned to avoid flooding the system with historical stars.
+        Subsequent runs compare the new state against the saved state and
+        emit ContentItems for newly starred and unstarred repositories.
+
+        Args:
+            username: GitHub username whose stars to track
+
+        Returns:
+            List[ContentItem]: Content items representing star changes
+        """
+        if not self.graphql_client:
+            logger.warning("GITHUB_TOKEN not set – skipping star_list fetch for %s", username)
+            return []
+
+        if not self.storage:
+            logger.warning("No storage provided – skipping star_list fetch for %s", username)
+            return []
+
+        graphql_query = """
+        query getUserStars($username: String!, $cursor: String) {
+            user(login: $username) {
+                starredRepositories(
+                    first: 100,
+                    after: $cursor,
+                    orderBy: {field: STARRED_AT, direction: DESC}
+                ) {
+                    edges {
+                        starredAt
+                        node {
+                            id
+                            nameWithOwner
+                            description
+                            url
+                            primaryLanguage { name }
+                            stargazerCount
+                        }
+                    }
+                    pageInfo {
+                        hasNextPage
+                        endCursor
+                    }
+                }
+            }
+        }
+        """
+
+        all_repos: List[StarredRepo] = []
+        has_next = True
+        cursor = None
+
+        try:
+            while has_next:
+                result = await self.graphql_client.query(
+                    graphql_query, {"username": username, "cursor": cursor}
+                )
+                connection = result["data"]["user"]["starredRepositories"]
+
+                for edge in connection["edges"]:
+                    node = edge["node"]
+                    lang = node.get("primaryLanguage") or {}
+                    all_repos.append(
+                        StarredRepo(
+                            id=node["id"],
+                            name_with_owner=node["nameWithOwner"],
+                            description=node.get("description"),
+                            url=node["url"],
+                            language=lang.get("name"),
+                            stars=node["stargazerCount"],
+                            starred_at=datetime.fromisoformat(
+                                edge["starredAt"].replace("Z", "+00:00")
+                            ),
+                        )
+                    )
+
+                page_info = connection["pageInfo"]
+                has_next = page_info["hasNextPage"]
+                cursor = page_info["endCursor"]
+
+        except Exception as e:
+            logger.warning("Error fetching stars for %s: %s", username, e)
+            return []
+
+        list_id = f"stars_{username}"
+        prev_state = self.storage.load_star_list_state(list_id)
+
+        current_state = StarListState(
+            list_id=list_id,
+            username=username,
+            repositories=all_repos,
+            last_updated=datetime.utcnow(),
+            repo_count=len(all_repos),
+        )
+        self.storage.save_star_list_state(list_id, current_state)
+
+        if prev_state is None:
+            logger.info(
+                "First run for %s stars – state saved, returning 0 items to prevent flood.",
+                username,
+            )
+            return []
+
+        return self._compare_star_lists(prev_state, current_state)
+
+    def _compare_star_lists(
+        self,
+        prev_state: StarListState,
+        current_state: StarListState,
+    ) -> List[ContentItem]:
+        """Compare two star list states and generate content items for changes.
+
+        Args:
+            prev_state: Previously persisted star list state
+            current_state: Freshly fetched star list state
+
+        Returns:
+            List[ContentItem]: Items for newly starred and unstarred repos
+        """
+        items: List[ContentItem] = []
+
+        prev_repos = {repo.id: repo for repo in prev_state.repositories}
+        curr_repos = {repo.id: repo for repo in current_state.repositories}
+
+        # New stars
+        for repo_id in set(curr_repos.keys()) - set(prev_repos.keys()):
+            repo = curr_repos[repo_id]
+            items.append(
+                ContentItem(
+                    id=self._generate_id("github", "star_new", repo.id),
+                    source_type=SourceType.GITHUB,
+                    title=f"{current_state.username} starred: {repo.name_with_owner}",
+                    url=repo.url,
+                    content=repo.description or "",
+                    author=current_state.username,
+                    published_at=repo.starred_at,
+                    metadata={
+                        "event_type": "star_new",
+                        "repo": repo.name_with_owner,
+                        "language": repo.language,
+                        "stars": repo.stars,
+                    },
+                )
+            )
+
+        # Removed stars
+        for repo_id in set(prev_repos.keys()) - set(curr_repos.keys()):
+            repo = prev_repos[repo_id]
+            items.append(
+                ContentItem(
+                    id=self._generate_id("github", "star_removed", repo.id),
+                    source_type=SourceType.GITHUB,
+                    title=f"{current_state.username} unstarred: {repo.name_with_owner}",
+                    url=repo.url,
+                    content=f"Repository {repo.name_with_owner} was removed from starred list",
+                    author=current_state.username,
+                    published_at=datetime.utcnow(),
+                    metadata={
+                        "event_type": "star_removed",
+                        "repo": repo.name_with_owner,
+                    },
+                )
+            )
 
         return items
