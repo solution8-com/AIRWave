@@ -204,7 +204,7 @@ class AIRWaveOrchestrator:
 
             # GitHub sources
             if self.config.sources.github:
-                github_scraper = GitHubScraper(self.config.sources.github, client)
+                github_scraper = GitHubScraper(self.config.sources.github, client, self.storage)
                 tasks.append(self._fetch_with_progress("GitHub", github_scraper, since))
 
             # Hacker News

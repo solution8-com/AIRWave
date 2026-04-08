@@ -60,11 +60,33 @@ class AIConfig(BaseModel):
 class GitHubSourceConfig(BaseModel):
     """GitHub source configuration."""
 
-    type: str  # "user_events", "repo_releases", etc.
+    type: str  # "user_events", "repo_releases", "star_list"
     username: Optional[str] = None
     owner: Optional[str] = None
     repo: Optional[str] = None
     enabled: bool = True
+
+
+class StarredRepo(BaseModel):
+    """A repository starred by a GitHub user."""
+
+    id: str
+    name_with_owner: str
+    description: Optional[str] = None
+    url: str
+    language: Optional[str] = None
+    stars: int
+    starred_at: datetime
+
+
+class StarListState(BaseModel):
+    """Persisted state for a user's starred repositories."""
+
+    list_id: str
+    username: str
+    repositories: List[StarredRepo]
+    last_updated: datetime
+    repo_count: int
 
 
 class HackerNewsConfig(BaseModel):
