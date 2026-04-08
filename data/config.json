@@ -2,15 +2,15 @@
   "version": "1.0",
   "ai": {
     "provider": "openai",
-    "model": "deepseek-chat",
-    "base_url": "https://api.deepseek.com",
+    "model": "gpt-5.4-nano", //
+    "base_url": "https://api.openai.com/v1",
     "api_key_env": "OPENAI_API_KEY",
-    "temperature": 0.3,
-    "max_tokens": 8192,
-    "languages": [
-      "zh",
-      "en"
-    ]
+    "temperature": 1, 
+    "max_completion_tokens": 128000,
+    "reasoning": {
+      "effort": "max"
+    },
+    "languages": ["en"]
   },
   "sources": {
     "github": [
@@ -55,12 +55,6 @@
         "url": "https://mshibanami.github.io/GitHubTrendingRSS/daily/all.xml",
         "enabled": true,
         "category": "github-trending"
-      },
-      {
-        "name": "LWN.net",
-        "url": "https://lwn.net/headlines/full_text?key=${LWN_KEY}",
-        "enabled": true,
-        "category": "linux-kernel"
       }
     ],
     "reddit": {
