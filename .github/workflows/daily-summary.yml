@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - gh-pages
   schedule:
     - cron: '0 0 */2 * *'  # Runs every 2 days at 00:00 UTC
   workflow_dispatch:      # Allow manual trigger
@@ -14,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write  # Needed to commit changes
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout code
