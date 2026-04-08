@@ -1,5 +1,5 @@
 [project]
-name = "horizon"
+name = "AIRWave"
 version = "0.1.0"
 description = "AI-driven information aggregation system for tracking academic and social trends"
 readme = "README.md"
