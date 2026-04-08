@@ -1,29 +1,26 @@
 <div align="center">
 
-# 🌅 Horizon
+# 🌅 AIRWave
 
-**AI curates the tech news. You just read.**
+**AI curates the tech news. You just read. Or let your agent generate a podcast for your lazy ass!**
 
 [![Python](https://img.shields.io/badge/python-3.11+-blue.svg?style=flat-square&logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](LICENSE)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json&style=flat-square)](https://github.com/astral-sh/uv)
-[![Daily Summary](https://github.com/Thysrael/Horizon/actions/workflows/deploy-docs.yml/badge.svg?style=flat-square)](https://thysrael.github.io/Horizon/)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/Thysrael/Horizon?style=flat-square)](https://github.com/Thysrael/Horizon/commits/main)
+[![Daily Summary](https://github.com/<TBD/AIRWave/actions/workflows/deploy-docs.yml/badge.svg?style=flat-square)](https://solution8-com.github.io/AIRWave/)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/solution8-com/AIRWave?style=flat-square)](https://github.com/solution8-com/AIRWave/commits/main)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-![Sources Welcome](https://img.shields.io/badge/📡_sources-welcome-f97316?style=flat-square)
 <br>
 
 ![Claude](https://img.shields.io/badge/Claude-f0daba?style=flat-square&logo=anthropic&logoColor=black)
-![GPT](https://img.shields.io/badge/GPT-412991?style=flat-square)
+![openAI GPT](https://img.shields.io/badge/GPT-412991?style=flat-square)
 ![Gemini](https://img.shields.io/badge/Gemini-8E75B2?style=flat-square&logo=google&logoColor=white)
-![DeepSeek](https://img.shields.io/badge/DeepSeek-0A6DC2?style=flat-square)
-![Doubao](https://img.shields.io/badge/Doubao-00D6C2?style=flat-square)
 ![MiniMax](https://img.shields.io/badge/MiniMax-FF6F00?style=flat-square)
 ![OpenClaw](https://img.shields.io/badge/OpenClaw-C83232?style=flat-square)
 
-Horizon collects news from multiple customizable sources, uses AI to score and filter them, and generates a daily briefing — complete with summaries, community discussions, and background explanations in both English and Chinese.
+AIRWave collects news from multiple customizable sources, uses AI to score and filter them, and generates a daily briefing — complete with summaries, community discussions, and background explanations in both English.
 
-[📖 Live Demo](https://thysrael.github.io/Horizon/) · [📋 Configuration Guide](https://thysrael.github.io/Horizon/configuration) · [简体中文](README_zh.md)
+[📖 Live Demo](https://solution8-com.github.io/<NAME?>/) · [📋 Configuration Guide](https://solution8-com.github.io/<NAME?>/configuration)
 
 </div>
 
@@ -53,28 +50,41 @@ Horizon collects news from multiple customizable sources, uses AI to score and f
 ## Features
 
 - **📡 Multi-Source Aggregation** — Collects from Hacker News, RSS feeds, Reddit, Telegram channels, and GitHub (releases & user events)
-- **🤖 AI-Powered Scoring** — Uses Claude, GPT-4, Gemini, DeepSeek, Doubao, MiniMax, or any OpenAI-compatible API to rate each item 0-10, filtering out the noise
-- **🌐 Bilingual Summaries** — Generates daily reports in both English and Chinese
+- **🤖 AI-Powered Scoring** — Uses Claude, Gemini, MiniMax, or any OpenAI-compatible API to rate each item 0-10, filtering out the noise
+- **🌐 Ready for Multilingual Summaries** — Generates daily reports in English but can go further
 - **🔍 Content Enrichment** — Searches the web to provide background knowledge for unfamiliar concepts
 - **💬 Community Voices** — Collects and summarizes discussions from comments on HackerNews, Reddit, etc.
 - **🔗 Cross-Source Deduplication** — Merges duplicate items from different platforms automatically
 - **📧 Email Subscription** — Self-hosted newsletter system (SMTP/IMAP) that handles "Subscribe" requests automatically
 - **📝 Static Site Generation** — Deploys as a GitHub Pages site via GitHub Actions, updated on a schedule
 - **⚙️ Fully Configurable** — Single JSON config file, easy to customize sources, thresholds, and AI providers
-- **🧙 Setup Wizard** — Interactive CLI that recommends sources based on your interests, with a [curated preset library](https://thysrael.github.io/Horizon/presets) open to community contributions
+- **🧙 Setup Wizard** — Interactive CLI that recommends sources based interests, with a [curated preset library](https://solution8-com.github.io/AIRWave/presets) open to community contributions
+
+## Roadmap
+
+- **🎄[1]Universal Knowledge Graph Interface** — Drop in any memory graph backend (Zep, mem0) XOR a naive graphDB (FalkorDB, neo4j)
+- **🎄[2]Fetch from Whatsapp** — Self-explanatory
+- **🎄[3]Insight and Memory HITL Commit Flow ** — Self-explanatory
+- **🎄[4]Update Universal Knowledge Graph from greenlit Insights** — Self-explanatory
+- **🎄[5]Auth-only sources** — Self-explanatory
+- **🎄[6]Achive.ph trigger and parsing logic** — Self-explanatory
+- **🎄[7]Improved Web UI** — better digest and article detail experience
+- **🎄[8]Webhook notification** — Self-explanatory
+- **🎄[9]More source types** (Twitter/X, Discord, etc.) — Self-explanatory
+- **🎄[10]Custom scoring prompts per source** — Self-explanatory
 
 ## How It Works
 
 ```
               ┌──────────┐
               │ Hacker   │
-┌─────────┐   │ News     │   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  RSS    │──▶│ Reddit   │──▶│ AI Score │──▶│ Enrich   │──▶│ Summary  │
-│ Telegram│   │ GitHub   │   │ & Filter │   │ & Search │   │ & Deploy │
-└─────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘
-  Fetch from      Merge &        Score          Web search     Generate
-  all sources    deduplicate     0-10 each      background     Markdown &
-                                & filter        knowledge      deploy site
+┌─────────┐   │ News     │   ┌──────────┐   ┌────────────────────┐   ┌──────────┐
+│  RSS    │──▶│ Reddit   │──▶│ AI Score │──▶│ Enrich             │──▶│ Summary  │
+│ Telegram│   │ GitHub   │   │ & Filter │   │ & Search & Validate│   │ & Deploy │
+└─────────┘   └──────────┘   └──────────┘   └────────────────────┘   └──────────┘
+  Fetch from    Merge &        Score          Web search               Generate
+  all sources   deduplicate    0-10 each      background               Markdown &
+  [2]                          & filter       knowledge,[3][4]         deploy site
 ```
 
 1. **Fetch** — Pull latest content from all configured sources concurrently
@@ -92,8 +102,8 @@ Horizon collects news from multiple customizable sources, uses AI to score and f
 #### Option A: Local Installation
 
 ```bash
-git clone https://github.com/Thysrael/Horizon.git
-cd horizon
+git clone https://github.com/solution8-com/AIRWave.git
+cd AIRWave
 
 # Install with uv (recommended)
 uv sync
@@ -105,8 +115,8 @@ pip install -e .
 #### Option B: Docker
 
 ```bash
-git clone https://github.com/Thysrael/Horizon.git
-cd horizon
+git clone https://github.com/solution8-com/AIRWave.git
+cd AIRWave
 
 # Configure environment
 cp .env.example .env
@@ -114,10 +124,10 @@ cp data/config.example.json data/config.json
 # Edit .env and data/config.json with your API keys and preferences
 
 # Run with Docker Compose
-docker-compose run --rm horizon
+docker-compose run --rm AIRWave
 
 # Or run with custom time window
-docker-compose run --rm horizon --hours 48
+docker-compose run --rm AIRWave --hours 48
 ```
 
 ### 2. Configure
@@ -125,10 +135,10 @@ docker-compose run --rm horizon --hours 48
 **Option A: Interactive wizard (recommended)**
 
 ```bash
-uv run horizon-wizard
+uv run AIRWave-wizard
 ```
 
-The wizard asks about your interests (e.g. "LLM inference", "嵌入式", "web security") and auto-generates `data/config.json` from a [curated preset library](https://thysrael.github.io/Horizon/presets) + optional AI recommendations.
+The wizard asks about your interests (e.g. "LLM inference","web security") and auto-generates `data/config.json` from a [curated preset library](https://solution8-com.github.io/AIRWave/presets) + optional AI recommendations.
 
 **Option B: Manual configuration**
 
@@ -174,22 +184,22 @@ For the full reference, see the [Configuration Guide](docs/configuration.md).
 #### Local Installation
 
 ```bash
-uv run horizon           # Run with default 24h window
-uv run horizon --hours 48  # Fetch from last 48 hours
+uv run AIRWave           # Run with default 24h window
+uv run AIRWave --hours 48  # Fetch from last 48 hours
 ```
 
 #### With Docker
 
 ```bash
-docker-compose run --rm horizon           # Run with default 24h window
-docker-compose run --rm horizon --hours 48  # Fetch from last 48 hours
+docker-compose run --rm AIRWave           # Run with default 24h window
+docker-compose run --rm AIRWave --hours 48  # Fetch from last 48 hours
 ```
 
 The generated report will be saved to `data/summaries/`.
 
 ### 4. Automate (Optional)
 
-Horizon works great as a **GitHub Actions** cron job. See [`.github/workflows/daily-summary.yml`](.github/workflows/daily-summary.yml) for a ready-to-use workflow that generates and deploys your daily briefing to GitHub Pages automatically.
+AIRWave works great as a **GitHub Actions** cron job. See [`.github/workflows/daily-summary.yml`](.github/workflows/daily-summary.yml) for a ready-to-use workflow that generates and deploys your daily briefing to GitHub Pages automatically.
 
 ## Supported Sources
 
@@ -203,34 +213,16 @@ Horizon works great as a **GitHub Actions** cron job. See [`.github/workflows/da
 
 ## MCP Integration
 
-Horizon ships with a built-in [MCP](https://modelcontextprotocol.io/) server so AI assistants can drive the pipeline programmatically.
+AIRWave ships with a built-in [MCP](https://modelcontextprotocol.io/) server so AI assistants can drive the pipeline programmatically.
 
 ```bash
 # Start the MCP server (stdio mode)
-uv run horizon-mcp
+uv run AIRWave-mcp
 ```
 
 Available tools include `hz_validate_config`, `hz_fetch_items`, `hz_score_items`, `hz_filter_items`, `hz_enrich_items`, `hz_generate_summary`, and `hz_run_pipeline`.
 
 See [`src/mcp/README.md`](src/mcp/README.md) for the full tool reference and [`src/mcp/integration.md`](src/mcp/integration.md) for client setup.
-
-## Roadmap
-
-- [x] Multi-source aggregation (HN, RSS, Reddit, Telegram, GitHub)
-- [x] AI scoring with multiple providers
-- [x] Bilingual summary generation (EN/ZH)
-- [x] Web search for background enrichment
-- [x] Community discussion collection
-- [x] GitHub Pages deployment
-- [x] **Email Subscription** (SMTP/IMAP automated newsletter)
-- [x] **Docker deployment support**
-- [x] **MCP server integration**
-- [x] Web UI dashboard
-- [x] **Setup Wizard** — interactive CLI that recommends sources based on user interests
-- [ ] **Improved Web UI** — better digest and article detail experience
-- [ ] Slack / Webhook notification
-- [ ] More source types (Twitter/X, Discord, etc.)
-- [ ] Custom scoring prompts per source
 
 ## Contributing
 
@@ -238,18 +230,13 @@ Contributions are welcome! Feel free to open issues or submit pull requests.
 
 ### Contribute Source Presets
 
-Horizon's setup wizard uses a community-maintained [preset library](https://thysrael.github.io/Horizon/presets) to recommend sources. **We'd love your help expanding it!**
+AIRWave's setup wizard uses the publicly available [preset library](https://solution8-com.github.io/AIRWave/presets) to recommend sources. **Please contribute to this list!**
 
 1. Fork this repo
-2. Add your sources to `data/presets.json` (provide both English and Chinese descriptions)
+2. Add your sources to `data/presets.json` (provide both English and  descriptions)
 3. Submit a PR
 
 Great candidates: niche RSS feeds, active subreddits, notable GitHub accounts, or Telegram channels in your area of expertise.
-
-## Acknowledgements
-
-- Special thanks to [LINUX.DO](https://linux.do/) for providing a promotion platform.
-- Special thanks to [HelloGitHub](https://hellogithub.com/) for valuable guidance and suggestions.
 
 ## License
 
