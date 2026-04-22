@@ -14,6 +14,7 @@
   },
   "sources": {
     "github": [
+      
       {
         "type": "user_events",
         "username": "karpathy",
@@ -40,6 +41,11 @@
       {
         "type": "star_list",
         "username": "karpathy",
+        "enabled": true
+      },
+      {
+        "type": "star_list",
+        "username": "le-dawg",
         "enabled": true
       }
     ],
@@ -102,7 +108,7 @@
     }
   },
   "filtering": {
-    "ai_score_threshold": 7.0,
+    "ai_score_threshold": 6.0,
     "time_window_hours": 24
   }
 }
