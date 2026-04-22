@@ -118,7 +118,7 @@ def print_config_template():
 
 Also create a .env file with:
 ANTHROPIC_API_KEY=your_api_key_here
-GITHUB_TOKEN=your_github_token_here (optional but recommended)
+GUB_TOKEN=your_github_token_here (optional but recommended)
 """
     console.print(template)
 

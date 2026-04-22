@@ -179,8 +179,8 @@ class AIRWavePipelineService:
                 if not os.getenv(key):
                     missing_env.append(key)
 
-            if ctx.config.sources.github and not os.getenv("GITHUB_TOKEN"):
-                warnings.append("GITHUB_TOKEN is not set; GitHub fetching may hit strict rate limits.")
+            if ctx.config.sources.github and not os.getenv("GUB_TOKEN"):
+                warnings.append("GUB_TOKEN is not set; GitHub fetching may hit strict rate limits.")
 
             if getattr(ctx.config, "email", None) and ctx.config.email and ctx.config.email.enabled:
                 pwd_key = ctx.config.email.password_env

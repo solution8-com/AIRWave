@@ -67,7 +67,7 @@ class GitHubScraper(BaseScraper):
             storage: Optional storage manager (required for star_list sources)
         """
         super().__init__({"sources": sources}, http_client)
-        self.token = os.getenv("GITHUB_TOKEN")
+        self.token = os.getenv("GUB_TOKEN")
         self.base_url = "https://api.github.com"
         self.storage = storage
         self.graphql_client = (
@@ -287,7 +287,7 @@ class GitHubScraper(BaseScraper):
             List[ContentItem]: Content items representing star changes
         """
         if not self.graphql_client:
-            logger.warning("GITHUB_TOKEN not set – skipping star_list fetch for %s", username)
+            logger.warning("GUB_TOKEN not set – skipping star_list fetch for %s", username)
             return []
 
         if not self.storage:
