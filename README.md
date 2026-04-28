@@ -7,7 +7,7 @@
 [![Python](https://img.shields.io/badge/python-3.11+-blue.svg?style=flat-square&logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](LICENSE)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json&style=flat-square)](https://github.com/astral-sh/uv)
-[![Daily Summary](https://github.com/<TBD/AIRWave/actions/workflows/deploy-docs.yml/badge.svg?style=flat-square)](https://solution8-com.github.io/AIRWave/)
+[![Deploy Docs](https://github.com/solution8-com/AIRWave/actions/workflows/deploy-docs.yml/badge.svg?style=flat-square)](https://solution8-com.github.io/AIRWave/)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/solution8-com/AIRWave?style=flat-square)](https://github.com/solution8-com/AIRWave/commits/main)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 <br>
@@ -20,7 +20,7 @@
 
 AIRWave collects news from multiple customizable sources, uses AI to score and filter them, and generates a daily briefing — complete with summaries, community discussions, and background explanations in both English.
 
-[📖 Live Demo](https://solution8-com.github.io/AIRWave/) · [📋 Configuration Guide](https://solution8-com.github.io/AIRwave/configuration) · [![Daily Summary](https://github.com/solution8-com/AIRWave/actions/workflows/deploy-docs.yml/badge.svg?style=flat-square)](https://solution8-com.github.io/AIRWave/) · ![DeepWiki Docs](https://deepwiki.com/solution8-com/AIRWave)
+[📖 Live Demo](https://solution8-com.github.io/AIRWave/) · [📋 Configuration Guide](https://solution8-com.github.io/AIRwave/configuration) · [![DeepWiki Docs](https://deepwiki.com/solution8-com/AIRWave)(DeepWiki Docs)
 
 </div>
 
