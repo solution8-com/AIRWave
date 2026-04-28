@@ -20,7 +20,7 @@
 
 AIRWave collects news from multiple customizable sources, uses AI to score and filter them, and generates a daily briefing — complete with summaries, community discussions, and background explanations in both English.
 
-[📖 Live Demo](https://solution8-com.github.io/AIRWave/) · [📋 Configuration Guide](https://solution8-com.github.io/AIRwave/configuration) · [![DeepWiki Docs](https://deepwiki.com/solution8-com/AIRWave)(DeepWiki Docs)
+[📖 Live Demo](https://solution8-com.github.io/AIRWave/) · [📋 Configuration Guide](https://solution8-com.github.io/AIRwave/configuration) · [📖 DeepWiki Docs](https://deepwiki.com/solution8-com/AIRWave)
 
 </div>
 
